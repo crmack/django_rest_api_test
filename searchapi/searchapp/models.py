@@ -13,6 +13,7 @@ class Search(models.Model):
     def save(self, *args, **kwargs):
         if self.matcher == 'MATCHER1' or self.matcher == 'MATCHER2':
             print('Valid matcher type, saving: ' + self.name)
+            SearchResult.objects.get_or_create(name=self.name,matcher=self.matcher)
             super(Search,self).save(*args,**kwargs)
         else:
             print("Invalid matcher type, not saving: " + self.name)    

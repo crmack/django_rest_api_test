@@ -1,8 +1,9 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from serachapp.models import Search, SearchResult
-from serachapp.serializers import SearchSerializer, SearchResultSerializer
+from django.http import HttpResponse, JsonResponse
+from searchapp.models import Search, SearchResult
+from searchapp.serializers import SearchSerializer, SearchResultSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -13,7 +14,7 @@ def search_list(request):
     if request.method == 'GET':
         searches = SearchResult.objects.all()
         serializer = SearchResultSerializer(searches, many=True)
-        return Response(serializer.data)
+        return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
         serializer = SearchSerializer(data=request.data)
